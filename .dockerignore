@@ -1,0 +1,5 @@
+# Ignore target directories by default
+**/target/
+
+# Allow the target directory in the root level (where the JAR is located)
+!target/
