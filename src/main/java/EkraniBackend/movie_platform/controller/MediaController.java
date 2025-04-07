@@ -21,13 +21,11 @@ public class MediaController {
     private MediaService mediaService;
 
     @GetMapping
-    @CrossOrigin
     public ResponseEntity<List<Media>> getAllMedia() {
         return ResponseEntity.ok(mediaService.getAllMedia());
     }
 
     @PostMapping("/add")
-    @CrossOrigin
     public ResponseEntity<?> createMedia(@RequestBody Media media) {
         if (media.getTitle() == null || media.getGenres() == null || media.getYear() <= 0 || media.getPrice() == null
                 || media.getType() == null) {
@@ -45,21 +43,18 @@ public class MediaController {
     }
 
     @GetMapping("/movies")
-    @CrossOrigin
     public ResponseEntity<List<Media>> getMovies(@RequestParam(required = false) String title,
             @RequestParam(required = false) Boolean featuredType) {
         return ResponseEntity.ok(mediaService.getMovies(title, featuredType));
     }
 
     @GetMapping("/tvshows")
-    @CrossOrigin
     public ResponseEntity<List<Media>> getTvShows(@RequestParam(required = false) String title,
             @RequestParam(required = false) Boolean featuredType) {
         return ResponseEntity.ok(mediaService.getTvShows(title, featuredType));
     }
 
     @GetMapping("/{id}")
-    @CrossOrigin
     public ResponseEntity<?> getMediaById(@PathVariable String id) {
         Optional<Media> media = mediaService.getMediaById(id);
         if (media.isPresent()) {
@@ -71,7 +66,6 @@ public class MediaController {
     }
 
     @PutMapping("/{id}")
-    @CrossOrigin
     public ResponseEntity<?> updateMedia(@PathVariable String id, @RequestBody Media media) {
         Optional<Media> existingMedia = mediaService.getMediaById(id);
         if (!existingMedia.isPresent()) {
@@ -97,7 +91,6 @@ public class MediaController {
     }
 
     @DeleteMapping("/{id}")
-    @CrossOrigin
     public ResponseEntity<String> deleteMedia(@PathVariable String id) {
         System.out.println("Attempting to delete media with ID: " + id);
         Optional<Media> existingMedia = mediaService.getMediaById(id);

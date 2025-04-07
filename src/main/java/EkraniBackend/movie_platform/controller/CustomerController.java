@@ -20,14 +20,12 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    @CrossOrigin
     public ResponseEntity<List<Customer>> getAllUsers() {
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @PostMapping("/register")
-    @CrossOrigin
     public ResponseEntity<?> registerUser(@RequestBody Customer customer) {
         if (customer.getFirstName() == null || customer.getLastName() == null ||
                 customer.getEmail() == null || customer.getPassword() == null) {
@@ -50,7 +48,6 @@ public class CustomerController {
     }
 
     @PostMapping("/login")
-    @CrossOrigin
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
         String email = loginData.get("email");
         String password = loginData.get("password");
@@ -68,7 +65,6 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @CrossOrigin
     public ResponseEntity<?> getCustomerById(@PathVariable String id) {
         if (!ObjectId.isValid(id)) {
             return ResponseEntity.badRequest().body(Map.of("message", "Invalid customer ID format"));
