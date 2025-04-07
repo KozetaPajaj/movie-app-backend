@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to the Digital Media Store";
+        return "Welcome to the Digital Media Store - Author: Kozeta Pajaj";
     }
 }
