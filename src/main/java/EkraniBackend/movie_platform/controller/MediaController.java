@@ -20,11 +20,6 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
-    @GetMapping("/")
-    public String home() {
-        return "Welcome to the Digital Media Store";
-    }
-
     @GetMapping
     public ResponseEntity<List<Media>> getAllMedia() {
         return ResponseEntity.ok(mediaService.getAllMedia());
