@@ -20,34 +20,37 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
+    @CrossOrigin
     public ResponseEntity<List<Customer>> getAllUsers() {
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @PostMapping("/register")
-public ResponseEntity<?> registerUser(@RequestBody Customer customer) {
-    if (customer.getFirstName() == null || customer.getLastName() == null ||
-            customer.getEmail() == null || customer.getPassword() == null) {
-        return ResponseEntity.badRequest().body(Map.of("message", "Missing required fields"));
-    }
+    @CrossOrigin
+    public ResponseEntity<?> registerUser(@RequestBody Customer customer) {
+        if (customer.getFirstName() == null || customer.getLastName() == null ||
+                customer.getEmail() == null || customer.getPassword() == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Missing required fields"));
+        }
 
-    if (!customer.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-        return ResponseEntity.badRequest().body(Map.of("message", "Invalid email format"));
-    }
+        if (!customer.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Invalid email format"));
+        }
 
-    try {
-        Customer createdCustomer = customerService.registerCustomer(customer);
-        return ResponseEntity.ok(Map.of("message", "User registered successfully", "userId", createdCustomer.getId()));
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-    } catch (Exception e) {
-        return ResponseEntity.status(500).body(Map.of("message", "Error registering user"));
+        try {
+            Customer createdCustomer = customerService.registerCustomer(customer);
+            return ResponseEntity
+                    .ok(Map.of("message", "User registered successfully", "userId", createdCustomer.getId()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", "Error registering user"));
+        }
     }
-}
-
 
     @PostMapping("/login")
+    @CrossOrigin
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
         String email = loginData.get("email");
         String password = loginData.get("password");
@@ -65,6 +68,7 @@ public ResponseEntity<?> registerUser(@RequestBody Customer customer) {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<?> getCustomerById(@PathVariable String id) {
         if (!ObjectId.isValid(id)) {
             return ResponseEntity.badRequest().body(Map.of("message", "Invalid customer ID format"));
