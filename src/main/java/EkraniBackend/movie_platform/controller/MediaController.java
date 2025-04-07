@@ -20,6 +20,11 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
+    @GetMapping("/")
+    public String home() {
+        return "Welcome to the Digital Media Store";
+    }
+
     @GetMapping
     public ResponseEntity<List<Media>> getAllMedia() {
         return ResponseEntity.ok(mediaService.getAllMedia());
@@ -27,7 +32,8 @@ public class MediaController {
 
     @PostMapping("/add")
     public ResponseEntity<?> createMedia(@RequestBody Media media) {
-        if (media.getTitle() == null || media.getGenres() == null || media.getYear() <= 0 || media.getPrice() == null || media.getType() == null) {
+        if (media.getTitle() == null || media.getGenres() == null || media.getYear() <= 0 || media.getPrice() == null
+                || media.getType() == null) {
             return ResponseEntity.badRequest()
                     .body(Map.of("message", "Missing required fields"));
         }
@@ -72,7 +78,8 @@ public class MediaController {
                     .body(Map.of("message", "Media not found with ID", "id", id));
         }
 
-        if (media.getTitle() == null || media.getGenres() == null || media.getYear() <= 0 || media.getPrice() == null || media.getType() == null) {
+        if (media.getTitle() == null || media.getGenres() == null || media.getYear() <= 0 || media.getPrice() == null
+                || media.getType() == null) {
             return ResponseEntity.badRequest()
                     .body(Map.of("message", "Missing required fields"));
         }
