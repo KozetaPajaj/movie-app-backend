@@ -58,7 +58,14 @@ public class CustomerController {
 
         Optional<Customer> customer = customerService.authenticate(email, password);
         if (customer.isPresent()) {
-            return ResponseEntity.ok(Map.of("message", "Login successful", "userId", customer.get().getId()));
+            Customer loggedInCustomer = customer.get();
+            Map<String, Object> response = Map.of(
+                    "message", "Login successful",
+                    "userId", loggedInCustomer.getId(),
+                    "firstName", loggedInCustomer.getFirstName(),
+                    "lastName", loggedInCustomer.getLastName(),
+                    "email", loggedInCustomer.getEmail());
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body(Map.of("message", "Invalid email or password"));
         }
